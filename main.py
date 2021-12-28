@@ -16,8 +16,8 @@ def direction_to_angle_with_dict(argument):
 
 
 def angle_to_direction_with_dict(argument):
-    result = {k: v for k, v in global_list_of_winds_dict.items() if v == argument}
-    return result
+    result = {k for k, v in global_list_of_winds_dict.items() if v == argument}
+    return result.pop()
 
 
 def validate_turn_value(turn):
