@@ -1,43 +1,23 @@
 # This is a task 1 - for Evo
 
-global_list_of_winds = {'N': 'N', 'NE': 'NE', 'E': 'E', 'SE': 'SE', 'S': 'S', 'SW': 'SW', 'W': 'W', 'NW': 'NW'}
+global_list_of_winds_dict = {'N': 0, 'NE': 45, 'E': 90, 'SE': 135, 'S': 180, 'SW': 225, 'W': 270, 'NW': 315}
 
 
 def direction(facing, turn):
     validate_turn_value(turn)
     validate_direction_value(facing)
 
-    initial_angle = direction_to_angle(facing)
-    result = initial_angle + turn
-    return angle_to_direction(result % 360)
+    result = (direction_to_angle_with_dict(facing) + turn) % 360
+    return angle_to_direction_with_dict(result)
 
 
-def direction_to_angle(argument):
-    switcher = {
-        global_list_of_winds['N']: 0,
-        global_list_of_winds['NE']: 45,
-        global_list_of_winds['E']: 90,
-        global_list_of_winds['SE']: 135,
-        global_list_of_winds['S']: 180,
-        global_list_of_winds['SW']: 225,
-        global_list_of_winds['W']: 270,
-        global_list_of_winds['NW']: 315
-    }
-    return switcher.get(argument, None)
+def direction_to_angle_with_dict(argument):
+    return global_list_of_winds_dict.get(argument, None)
 
 
-def angle_to_direction(argument):
-    switcher = {
-        0: global_list_of_winds['N'],
-        45: global_list_of_winds['NE'],
-        90: global_list_of_winds['E'],
-        135: global_list_of_winds['SE'],
-        180: global_list_of_winds['S'],
-        225: global_list_of_winds['SW'],
-        270: global_list_of_winds['W'],
-        315: global_list_of_winds['NW']
-    }
-    return switcher.get(argument, None)
+def angle_to_direction_with_dict(argument):
+    result = {k for k, v in global_list_of_winds_dict.items() if v == argument}
+    return result.pop()
 
 
 def validate_turn_value(turn):
@@ -46,13 +26,14 @@ def validate_turn_value(turn):
 
 
 def validate_direction_value(facing):
-    if facing not in global_list_of_winds:
+    if facing not in global_list_of_winds_dict:
         raise AttributeError(
-            'Not valid arguments. Check if direction value is in the list: [{}]'.format(global_list_of_winds.keys()))
+            'Not valid arguments. Check if direction value is in the list: [{}]'.format(global_list_of_winds_dict.keys()))
 
 
 if __name__ == '__main__':
     print(direction('N', 180))
+    print(direction('N', 90))
     print(direction('SE', 180))
     # print(direction('SEs', 180))
     # print(direction('SE', 10080))
